@@ -1,0 +1,1382 @@
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+
+<link rel="stylesheet"
+href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/visibility.js/1.2.4/visibility.min.js"></script>
+
+<style>
+    body {
+        font-family: 'Segoe UI';
+        font-size: 16px;
+
+        color:white;
+        font-weight:300;
+    }
+
+    .h1 {
+        font-size: 80px;
+    }
+
+    .h2 {
+        font-size:40px;
+    }
+
+    .h3 {
+        font-size:20px;
+    }
+
+    .fixed {
+        position:fixed;
+    }
+
+    input {
+        text-decoration: none;
+    }
+
+    img {
+        user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-drag: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+
+    a {
+        color:white;
+    }
+
+    a:link {
+        color: white;
+    }
+
+    a:hover{
+        color:white;
+    }
+
+    a:visited {
+        color:white;
+    }
+
+    .menu-link {
+        font-size: 32px;
+        font-weight:500;
+    }
+
+    @-webkit-keyframes autofill {
+    to {
+        color: #666;
+        background: transparent;
+    }
+}
+
+input:-webkit-autofill {
+    -webkit-animation-name: autofill;
+    -webkit-animation-fill-mode: both;
+}
+
+    .message {
+        line-height: 20px;
+        text-align: left;
+
+        font-size:14px;
+
+        word-wrap: break-word;
+
+        max-width: 380px;
+
+        display:inline-block;
+
+        margin-bottom: 5px;
+        margin-left: 10px;
+
+        background: #44BEC7; /*0084FF*/
+        border:0;
+        border-radius:20px;
+
+        font-weight:400;
+        color: white;
+
+        padding:6px 12px 6px 12px;
+
+        user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-drag: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+
+    .message-name {
+        font-size:11px;
+        margin-left: 62px;
+
+        color:rgb(20, 20, 20);
+
+        font-weight:500;
+
+        margin-top:20px;
+    }
+
+    .server-profile {
+        -webkit-transition: all .5s ease;
+    -moz-transitition: all .5s ease;
+    -o-transition: all .5s ease;
+    transition: all .5s ease;
+
+    width: 50px;
+    height: 50px;
+    }
+
+
+    .server-profile:hover {
+        width: 60px;
+        height: 60px;
+    }
+
+     ::-webkit-scrollbar
+{
+  width: 12px;  /* for vertical scrollbars */
+  height: 12px; /* for horizontal scrollbars */
+}
+
+.serverjoin:hover {
+    background: rgba(0, 0, 0, .1);
+}
+
+
+::-webkit-scrollbar-track
+{
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb
+{
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.page {
+    -webkit-transition: all 1s ease;
+    -moz-transitition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+
+    background-color:skyblue;
+
+}
+
+#change-server {
+    cursor: pointer; cursor: hand;
+
+}
+
+#logout {
+
+    cursor: pointer; cursor: hand;
+}
+
+</style>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <meta name="google-site-verification" content="gGhQ7WfMBzR7vcveQLa0TU0hI5O75E7XEUE59Hf1CWQ" />
+
+  <title>Google</title>
+</head>
+
+<html>
+    <body style = 'background-color:#009688; overflow-x:hidden'>
+
+        <div style = 'width:100%; height:100%;position:absolute; top:0; left:0%; background-color:#df972d' class = 'valign-wrapper page'>
+            <!--<div style = 'margin-left:50px;' class = ''>
+                    <div class = 'h1' style = ''>Server</div>
+
+                    <input id = 'server' type = 'text' placeholder= 'type a server name' spellcheck="false" style = 'width:80%; height:150px; font-size:80; border-style:none'><i id = 'submit-server' class = 'medium material-icons'>arrow_forward</i>
+
+                    <div id = 'server-error' class = 'h3' style = 'width:80%; color: #c62828'></div>
+
+                    <div class = 'h3' style = 'width:80%'>Enter a server name, or pick one that you've joined before in the list below. If a friend has already entered a server, you can type in the same name to join his server. To create your own, enter a unique server name.</div>
+
+                    <div id = 'servers-joined-before' class = 'h3' style = 'width:80%'>Servers you've joined before: </div>
+            </div>
+        </div> -->
+
+        <div id = 'message-bg' style = 'width:100%; height:100%;position:absolute; top:0; left:0%; background:#41b6ff' class = 'page'>
+            <div style = 'padding-left:50px; background:rgba(0, 0, 0, .5); width:100%; height:100%;' class = ''>
+                    <div class = 'valign-wrapper'>
+                    <a href="#" data-activates="slide-out" class="button-collapse" style = 'padding-top:15px'><i id = 'menu-button' class = 'large material-icons'>menu</i></a><span class = 'h1' style = 'margin-top:-0px; font-weight:400' id = 'server-name'>Message</span>
+                    </div>
+
+                    <i id = 'forward-bg' onclick = 'change_bg()' class = 'small material-icons' style = 'position:absolute; top: 50%; right: 20px'>arrow_forward</i>
+
+                    <div style = 'background : rgba(255, 255, 255, .6); width: 45%; max-width: 590px; height: calc(90% - 50px); border-radius: 30px; margin-top:20px; padding-top: 5px; margin-bottom:-10px; position:relative; float:left; margin-right:0'>
+                        <div style = 'height:calc(100% - 110px);font-family: "Segoe UI";width:100%;overflow-y:auto;overflow-x:visible; margin-top:10px; padding:0 10 10 0; position:relative' id = 'message-display'>
+                        <div id = 'reacts' style = 'position:absolute; border-radius: 30px; background-color:white; width:320px; text-align:center; padding: 5 0 5 10; display:none; z-index:10000'>
+                            <img id = 'smile-react' src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/smiling-face-with-heart-shaped-eyes_1f60d.png' style = 'width:30px; height:30px; margin-right:10px'>
+
+                            <img id = 'sad-react' src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/smiling-face-with-open-mouth-and-tightly-closed-eyes_1f606.png' style = 'width:30px; height:30px; margin-right:10px'>
+                            <img id = 'mad-react' src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/face-with-open-mouth_1f62e.png' style = 'width:30px; height:30px; margin-right:10px'>
+
+                            <img id = 'cry-react' src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/crying-face_1f622.png' style = 'width:30px; height:30px; margin-right:10px'>
+                            <img id = 'angro-react' src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/angry-face_1f620.png' style = 'width:30px; height:30px; margin-right:10px'>
+
+                            <img id = 'thumbs-down-react' src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/thumbs-down-sign_1f44e.png' style = 'width:30px; height:30px; margin-right:10px'>
+                            <img id = 'thumbs-up-react' src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/thumbs-up-sign_1f44d.png' style = 'width:30px; height:30px; margin-right:10px'>
+
+                        </div>
+                            <div id = 'seen-indicator' style = 'font-weight:500;width:100%; text-align:right; margin-right:12px; font-size:11px'></div>
+                        </div>
+
+                        <div id = 'colors' style = 'display:none; overflow-y:scroll; overflow-x:hidden; position:absolute; padding-bottom:10px; bottom:110px; left:0; height:100px; width:100%; background-color:rgba(255, 255, 255, .7)'></div>
+
+                        <div id = 'emojis' style = 'display:none; overflow-y:scroll; overflow-x:hidden; position:absolute; padding-bottom:10px; bottom:110px; left:0; height:100px; width:100%; background-color:rgba(255, 255, 255, .7); z-index:10000'></div>
+
+                        <div id = 'message' contentEditable="true" rows="4" cols="80" data-text="Type a message" onkeypress = "send(event, this)" style = 'height:100px; width:calc(100% - 70px); font-weight:500; background-color:rgba(255, 255, 255, 0); color:white; overflow-y:auto; overflow-x:hidden; font-family:"Segoe UI"; border-radius:20px; border:0; padding:0px 0px 5px 15px; outline:none;margin-top:0px; display:inline-block; position:absolute; bottom:5px";'></div>
+
+
+
+                        <i id = 'show-emojis' class = 'small material-icons' style = 'position:absolute; right: 10px; bottom:70px;'>tag_faces</i>
+                        <i id = 'show-colors' class = 'small material-icons' style = 'position:absolute; right: 10px; bottom:40px;'>invert_colors</i>
+                        <i id = 'toggle-ding' class = 'small material-icons' style = 'position:absolute; right: 10px; bottom:10px; color:#c62828'>volume_off</i>
+                        <i id = 'send-img' class = 'small material-icons' style = 'position:absolute; right: 40px; bottom:10px;'>image</i>
+
+                        <div class = 'modal' id = 'img-send-modal'>
+                            <div class = 'valign-wrapper' style = 'height:90%; margin-top:0px; margin-left:50px;'>
+                                <form action="http://knightchat.newportrocketry.com/file"
+                                enctype="multipart/form-data" method="post">
+                                <b style = 'font-weight:500'>Select a file:</b><br>
+
+                                <input id = 'file-handle' type="text" name="handle" size="40" style = 'display:none;'>
+                                <input id = 'file-server' type="text" name="server" size="40" style = 'display:none'>
+
+                                <div class="file-field input-field">
+                                    <div class="btn" style = 'border-radius:30px; -webkit-box-shadow:0; box-shadow:0'>
+                                        <span>File</span>
+                                        <input type="file" name="newfile" size="40">
+                                     </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path" type="text">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer" style = 'height:10%; text-align:left'>
+                                <span id = 'image-modal-close' style = 'color: #c62828; font-weight:500; margin-left:50px'>Close</span>
+                                <input id = 'image-modal-send' class = '' style = 'color:#0084FF; border:0 ;background-color:rgba(0, 0, 0, 0); border-radius:30px; margin-top:10px; margin-left:50px; font-weight:700; -webkit-box-shadow:0; box-shadow:0' type="submit" value="Send">
+                            </div>
+
+                            </form>
+
+                        </div>
+
+                        <div id = 'server-info' style = 'width: 90%; position:absolute; top : 0px; left: calc(100% + 40px); font-weight:500; font-size:20px; padding-left:0px; height:auto; background-color:rgba(255, 255, 255, .0)'>
+                            <i style = 'position:absolute; bottom: -70px; left: 25px; background:transparent; color: deepskyblue; font-weight:100; padding-top:15px' class = 'medium material-icons'>add
+</i>
+
+                        </div>
+
+                    </div>
+
+
+            </div>
+        </div>
+
+        <div id="slide-out" class="side-nav" style = 'width:100%; background-color: #81d4fa'>
+            <i id = 'close-menu' class = 'medium material-icons' style = 'margin-left:50; margin-top:20px;'>close</i>
+
+            <div style = 'width:100%; height:calc(100% - 70px); margin-top: -40px; margin-left:50px' class = 'valign-wrapper'>
+                <div>
+                    <span id = 'change-server' class = 'h1' style = 'font-weight:500; color:#004d40'>Refresh</span>
+                    <span id = 'logout' class = 'h1' style = 'font-weight:500px; margin-left: 150px; color: #c62828;'>Logout</span>
+
+                    </br>
+                    </br>
+                    <div style = 'margin-left:5px'>
+                        <a class = 'menu-link'>Profile</a>
+                        <br/>
+                        <a class = 'menu-link'>Conversations</a>
+                        <br/>
+                        <a class = 'menu-link'>Friends</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+        <audio src="https://s3.amazonaws.com/knightchat-storage/premium-ding.wav" autostart=false width=1 height=1 id="ding" enablejavascript="true"></audio>
+    </body>
+
+    <script>
+        var earliest_message;
+
+
+
+        $(".button-collapse").sideNav();
+
+        $('#img-send-modal').modal();
+
+        $('#logout').click(function(){
+            window.location.replace("http://knightchat.newportrocketry.com");
+        });
+
+        $('#change-server').click(function(){
+            window.location.reload(true);
+        });
+
+        $('#close-menu').click(function(){
+            $('.button-collapse').sideNav('hide');
+        });
+
+        $('#send-img').click(function(){
+            $('#img-send-modal').modal('open');
+
+            $('#file-handle').val(handle);
+            $('#file-server').val($('#server').val());
+
+        });
+
+        $('#image-modal-close').click(function(){
+            $('#img-send-modal').modal('close');
+        })
+
+        $('#image-modal-send').click(function(){
+            $('#img-send-modal').modal('close');
+        })
+
+        var is_visible = true;
+
+        var play_ding = false;
+
+        function playDing() {
+            var thissound=document.getElementById("ding");
+
+            if (Visibility.hidden() && play_ding){
+                thissound.play();
+            }
+        }
+
+        $('#toggle-ding').click(function () {
+            play_ding = !play_ding;
+
+            if (!play_ding) {
+                $('#toggle-ding').html("volume_off");
+                $('#toggle-ding').css('color', '#c62828');
+            }else{
+                $('#toggle-ding').html("volume_up");
+                $('#toggle-ding').css('color', 'black');
+            }
+        });
+
+        var delimiter = String.fromCharCode(0);
+        var message_delimiter = String.fromCharCode(1);
+
+        var handle;
+        var server;
+
+        var prev_message;
+
+        var page = 0;
+        function shift_forward(){
+            page ++;
+            var c = document.getElementsByClassName("page");
+
+            for (i = 0; i < c.length; i++){
+                c[i].style['left'] = -100 * page + i * 100 + '%';
+            }
+        }
+
+        var bg = Math.floor(Math.random() * 10);
+
+        function change_bg(){
+            bg ++;
+            bg %= 13;
+
+            if (true){
+                $('#server-name').css('color', 'white');
+                $('#menu-button').css('color', 'white');
+                $('.alt-server-name').css('color', 'white');
+            }else{
+                $('#server-name').css('color', 'black');
+                $('#menu-button').css('color', 'black');
+                $('.alt-server-name').css('color', 'black');
+
+            }
+
+            $('#message-bg').css('background', 'url(https://s3.amazonaws.com/knightchat-storage/bg' + (bg + 1) + '.jpg)');
+            $('#message-bg').css('background-size', 'cover');
+        }
+
+        setInterval(change_bg, 60000);
+        change_bg();
+
+        var face_emojis = 'https://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/grinning-face_1f600.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/grinning-face-with-smiling-eyes_1f601.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/face-with-tears-of-joy_1f602.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/smiling-face-with-open-mouth_1f603.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/smiling-face-with-open-mouth-and-smiling-eyes_1f604.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/smiling-face-with-open-mouth-and-cold-sweat_1f605.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/smiling-face-with-open-mouth-and-tightly-closed-eyes_1f606.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/winking-face_1f609.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/smiling-face-with-smiling-eyes_1f60a.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/face-savouring-delicious-food_1f60b.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/smiling-face-with-sunglasses_1f60e.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/smiling-face-with-heart-shaped-eyes_1f60d.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/face-throwing-a-kiss_1f618.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/kissing-face_1f617.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/kissing-face-with-smiling-eyes_1f619.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/kissing-face-with-closed-eyes_1f61a.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/white-smiling-face_263a.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/slightly-smiling-face_1f642.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/neutral-face_1f610.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/expressionless-face_1f611.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/face-without-mouth_1f636.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/smirking-face_1f60f.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/persevering-face_1f623.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/disappointed-but-relieved-face_1f625.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/face-with-open-mouth_1f62e.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/hushed-face_1f62f.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/sleepy-face_1f62a.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/tired-face_1f62b.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/sleeping-face_1f634.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/relieved-face_1f60c.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/face-with-stuck-out-tongue_1f61b.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/face-with-stuck-out-tongue-and-winking-eye_1f61c.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/face-with-stuck-out-tongue-and-tightly-closed-eyes_1f61d.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/unamused-face_1f612.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/face-with-cold-sweat_1f613.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/pensive-face_1f614.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/confused-face_1f615.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/astonished-face_1f632.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/confounded-face_1f616.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/disappointed-face_1f61e.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/worried-face_1f61f.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/face-with-look-of-triumph_1f624.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/crying-face_1f622.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/loudly-crying-face_1f62d.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/frowning-face-with-open-mouth_1f626.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/anguished-face_1f627.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/fearful-face_1f628.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/weary-face_1f629.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/grimacing-face_1f62c.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/face-with-open-mouth-and-cold-sweat_1f630.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/face-screaming-in-fear_1f631.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/flushed-face_1f633.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/dizzy-face_1f635.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/pouting-face_1f621.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/angry-face_1f620.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/face-with-medical-mask_1f637.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/smiling-face-with-halo_1f607.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/smiling-face-with-horns_1f608.pnghttps://emojipedia-us.s3.amazonaws.com/thumbs/72/facebook/65/imp_1f47f.png';
+
+        face_emojis = face_emojis.split('https:');
+
+        for (i = 1; i < face_emojis.length; i++){
+            var emoji_url = 'https:' + face_emojis[i];
+            var emoji = document.createElement("IMG");
+            emoji.src = emoji_url;
+
+            emoji.style['width'] = '30px';
+            emoji.style['height'] = '30px';
+
+            emoji.style['margin-left'] = '10px';
+            emoji.style['margin-right'] = '10px';
+            emoji.style['margin-top'] = '10px';
+
+            emoji.id = 'emoji-' + i;
+
+            document.getElementById('emojis').appendChild(emoji);
+
+            $('#emoji-' + i).click(function (){
+                var new_emoji = document.createElement("IMG");
+                new_emoji.src = this.src;
+
+                new_emoji.style['width'] = '20px';
+                new_emoji.style['height'] = '20px';
+
+                document.getElementById("message").appendChild(new_emoji);
+                document.getElementById("message").innerHTML += ' ';
+            });
+
+        }
+
+        var colors = "#13CF13#0084FF#44BEC7#FFC300#FA3C4C#D696BB#6699CC#FF7E29#7646FF#20CEF5#67B868#D4A88C#FF5CA1"
+        colors = colors.split('#');
+
+        for (i = 1; i < colors.length; i++){
+            var actual_color = '#' + colors[i];
+
+            var color_sample = document.createElement("DIV");
+
+            if (i > 0){
+                color_sample.style['display'] = 'inline-block';
+            }
+
+            color_sample.style['background-color'] = actual_color;
+            color_sample.style['border-radius'] = '50%';
+            color_sample.style['width'] = '30px';
+            color_sample.style['height'] = '30px';
+            color_sample.style['margin'] = '10 10 0 10';
+
+            color_sample.id = 'colorsample-' + i;
+
+            document.getElementById("colors").appendChild(color_sample);
+
+            $('#colorsample-' + i).click(function() {
+                request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+                console.log(this.style['background-color']);
+                request.send("USER_COLOR_CHANGE" + delimiter + handle + delimiter + this.style['background-color']);
+            })
+        }
+
+
+        var showing_emojis = false;
+
+        var react_message_id;
+
+        $('#show-emojis').click(function () {
+            if (!showing_emojis){
+                $('#emojis').css('display', 'inline');
+                showing_emojis = true;
+
+                if (showing_colors) {
+                    $('#colors').css('bottom', '200px');
+                }
+            }else{
+                $('#emojis').css('display', 'none');
+                showing_emojis = false;
+
+                if (showing_colors) {
+                    $('#colors').css('bottom', '100px');
+
+                }
+            }
+        });
+
+        var showing_colors = false;
+        $('#show-colors').click(function () {
+            if (!showing_colors){
+                if (showing_emojis){
+                    $('#colors').css('bottom', '200px');
+                }else{
+                    $('#colors').css('bottom', '100px');
+
+                }
+
+                $('#colors').css('display', 'inline');
+                showing_colors = true;
+            }else{
+
+                $('#colors').css('display', 'none');
+                showing_colors = false;
+            }
+        });
+
+        $('#message-display').click(function(e){
+            if (e.target.classList[0] != "message"){
+                $('#reacts').css('display', 'none');
+            }
+        });
+
+        $('#smile-react').click(function() {
+            var parent = $(this).parent();
+            request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+            request.send("REACT" + delimiter + handle + delimiter + server + delimiter + "smile" + delimiter + react_message_id.slice(0, -1));
+        });
+
+        $('#sad-react').click(function() {
+            var parent = $(this).parent();
+            request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+            request.send("REACT" + delimiter + handle + delimiter + server + delimiter + "sad" + delimiter + react_message_id.slice(0, -1));
+        });
+
+        $('#mad-react').click(function() {
+            var parent = $(this).parent();
+            request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+            request.send("REACT" + delimiter + handle + delimiter + server + delimiter + "mad" + delimiter + react_message_id.slice(0, -1));
+        });
+
+        $('#cry-react').click(function() {
+            var parent = $(this).parent();
+            request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+            request.send("REACT" + delimiter + handle + delimiter + server + delimiter + "cry" + delimiter + react_message_id.slice(0, -1));
+        });
+
+        $('#angro-react').click(function() {
+            var parent = $(this).parent();
+            request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+            request.send("REACT" + delimiter + handle + delimiter + server + delimiter + "angro" + delimiter + react_message_id.slice(0, -1));
+        });
+
+        $('#thumbs-down-react').click(function() {
+            var parent = $(this).parent();
+            request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+            request.send("REACT" + delimiter + handle + delimiter + server + delimiter + "down" + delimiter + react_message_id.slice(0, -1));
+        });
+
+        $('#thumbs-up-react').click(function() {
+            var parent = $(this).parent();
+            request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+            request.send("REACT" + delimiter + handle + delimiter + server + delimiter + "up" + delimiter + react_message_id.slice(0, -1));
+        });
+
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+
+                    document.body.className = 'ok';
+                    console.log(request.responseText);
+
+                    console.log(request.responseText.split(delimiter));
+
+                    var valid = request.responseText.split(delimiter)[0];
+                    var servers = request.responseText.split(delimiter).slice(1);
+
+                    var servers_string = "";
+                    for (i = 0; i < servers.length; i++){
+                        if (i != servers.length - 1){
+                            servers_string += "<div id = 'server-" + i + "' class = 'chip' style = ''>" + servers[i] + "</div> ";
+                        }else{
+                            servers_string += "<div id = 'server-" + i + "' class = 'chip' style = ''>" + servers[i] + "</div> ";
+                        }
+                    }
+
+                    console.log(servers_string);
+
+                    if (servers_string === "<div id = 'server-0' class = 'chip' style = ''></div> "){
+                        servers_string = "You have not joined any servers."
+                    }else{
+                        servers_string = "Servers you've joined before: " + servers_string;
+                    }
+
+                    //document.getElementById("servers-joined-before").innerHTML = servers_string;
+
+                    for (i = 0; i < servers.length; i++){
+                        $('#server-' + i).click(function() {
+                            console.log($(this).text());
+                            $('#server').val($(this).text());
+                        });
+                    }
+
+                    if (valid === "OK"){
+
+                    }else{
+                    }
+                } else {
+                    document.body.className = 'error';
+                }
+            }
+        };
+
+        var pass_request = new XMLHttpRequest();
+        pass_request.onreadystatechange = function() {
+            if (pass_request.readyState === 4) {
+                if (pass_request.status === 200) {
+                    var message = pass_request.responseText;
+                    var split = message.split(delimiter);
+
+                    console.log(split);
+
+                    if (split[0] == 'OK'){
+                        shift_forward();
+                        setTimeout(function(){$('#server').focus();}, 1000);
+
+                    }else{
+                        $('#password-error').html(split[1]);
+                    }
+                }
+            }
+        }
+
+        var missed_messages = 0;
+        var previous_profile;
+
+        $('#handle').focus();
+
+        var server_info_request = new XMLHttpRequest();
+        server_info_request.onreadystatechange = function () {
+            if (server_info_request.readyState === 4){
+                if (server_info_request.status === 200) {
+                    var server_info = JSON.parse(server_info_request.responseText);
+                    console.log(server_info);
+
+                    for (var server in server_info){
+                        var wrapper_div = document.createElement("DIV");
+                        wrapper_div.classList.add('serverjoin');
+                        wrapper_div.id = 'join-server-' + server;
+
+                        wrapper_div.style['padding-left'] = '15px';
+
+                        document.getElementById("server-info").appendChild(wrapper_div);
+
+                        $('#join-server-' + server).mouseup(function(){
+                            joinServer(this.id.split('-')[2]);
+                        });
+
+                        document.getElementById("join-server-" + server).innerHTML += "<input style = 'margin-left: 20px;width: 90%; font-size: 40px; height:70px; color:white' class = 'alt-server-name' value = '" + server + "' spellcheck = false></input><br/>";
+
+                        for (var user in server_info[server]){
+                            var user_img = document.createElement("IMG");
+
+
+                            document.getElementById("join-server-" + server).appendChild(user_img);
+
+                            user_img.id = server + '-' + server_info[server][user];
+
+                            $('#' + server + '-' + server_info[server][user]).error(function(){
+                                    $(this).attr('src', 'https://s3.amazonaws.com/knightchat-storage/profile-default.jpg');
+                            });
+
+                            user_img.title = server_info[server][user];
+                            user_img.classList.add("server-profile");
+                            user_img.style['border-radius'] = '50%';
+
+                            user_img.src = "https://s3.amazonaws.com/knightchat-storage/" + server_info[server][user] + '-profile.jpg';
+
+                            if (user == 0){
+                                user_img.style['margin-left'] = '15px';
+
+                            }else {
+                                user_img.style['margin-left'] = '-15px';
+
+
+                            }
+
+                        }
+                        document.getElementById("join-server-" + server).innerHTML += "";
+                        document.getElementById("join-server-" + server).innerHTML += "<br/></div><br/>";
+                    }
+                }
+            }
+        }
+
+        var message_request = new XMLHttpRequest();
+        message_request.timeout = 60000; // Set timeout to 4 seconds (4000 milliseconds)
+
+        message_request.ontimeout = function () {
+            alert("You timed out, restarting request");
+
+            message_request.open("POST", "http://knightchat.newportrocketry.com/", true);
+            console.log("WHAT_HAVE_I_MISSED" + delimiter + handle + delimiter + server);
+            message_request.send("WHAT_HAVE_I_MISSED" + delimiter + handle + delimiter + server);
+         }
+        message_request.onreadystatechange = function() {
+            if (message_request.readyState === 4) {
+                if (message_request.status === 200) {
+                    document.body.className = 'ok';
+                    console.log(message_request.responseText);
+
+                    var split_messages = message_request.responseText.split(message_delimiter);
+
+                    for (m = 0; m < split_messages.length; m++){
+
+                        var message_name = document.createElement("DIV");
+                        var new_message = document.createElement("DIV");
+
+                        var M = split_messages[m].split(delimiter);
+
+                        var color = M[2];
+
+                        if (M[1] === "servername accepted"){
+
+                            // start a new request
+                            message_request.open("POST", "http://knightchat.newportrocketry.com/", true);
+                            message_request.send("REQUEST_LAST_10" + delimiter + handle + delimiter + server + delimiter + '-1');
+                            return;
+
+                        }else if (M[0] === "FAILED"){
+                            document.getElementById("server-error").innerHTML = M[1];
+                            return;
+
+                        }else if (M[1] === "MISSEDNOTHING"){
+                            console.log("RESETING REQUEST FOR MESSAGE");
+
+                            message_request.open("POST", "http://knightchat.newportrocketry.com/", true);
+                            console.log("WHAT_HAVE_I_MISSED" + delimiter + handle + delimiter + server);
+                            message_request.send("WHAT_HAVE_I_MISSED" + delimiter + handle + delimiter + server);
+                            return;
+                        }
+
+                        new_message.innerHTML = M[1].slice(0, -1);
+                        new_message.id = M[3] + '-idmessage';
+
+                        message_name.innerHTML = M[0];
+                        message_name.classList.add("message-name");
+
+                        new_message.classList.add("message");
+                        new_message.classList.add(M[0] + '-classmessage');
+
+                        var special_byte = M[1].slice(-1);
+                        console.log("SPECIAL BYTE" + special_byte);
+
+                        var profile = document.createElement("IMG");
+                        profile.style['margin-left'] = '10px';
+                        profile.style['width'] = '30px';
+                        profile.style['height'] = '30px';
+                        profile.style['border-radius'] = '50%';
+                        profile.classList.add('profile-img');
+                        profile.src = 'https://s3.amazonaws.com/knightchat-storage/' + M[0] + '-profile.jpg';
+                        profile.onerror = function() {this.onerror=null;this.src="https://s3.amazonaws.com/knightchat-storage/profile-default.jpg";};
+
+                        if (special_byte == '&'){
+                            var messages_from_person = document.getElementsByClassName(M[0] + '-classmessage');
+                            for (i = 0; i < messages_from_person.length; i++) {
+                                if (messages_from_person[i].style['background-color'] != 'rgba(0, 0, 0, 0)'){
+                                    messages_from_person[i].style['background-color'] = M[1].slice(0, -1);
+                                }
+                            }
+
+                            message_request.open("POST", "http://knightchat.newportrocketry.com/", true);
+                            console.log("WHAT_HAVE_I_MISSED" + delimiter + handle + delimiter + server);
+                            message_request.send("WHAT_HAVE_I_MISSED" + delimiter + handle + delimiter + server);
+
+                            return;
+                        }else if (special_byte == '$'){
+                            var message_id = M[4];
+                            var img = document.createElement("IMG");
+
+                            img.style['width'] = '12px';
+                            img.style['height'] = '12px';
+                            img.style['margin-left'] = '8px';
+                            img.style['margin-top'] = '2px';
+                            img.style['margin-bottom'] = '2px';
+
+                            img.style['display'] = 'inline-block';
+
+                            if (M[1] == 'smile$'){
+                                img.src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/smiling-face-with-heart-shaped-eyes_1f60d.png';
+                            }else if (M[1] == 'sad$'){
+                                img.src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/smiling-face-with-open-mouth-and-tightly-closed-eyes_1f606.png';
+
+                            }else if (M[1] == 'mad$'){
+                                img.src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/face-with-open-mouth_1f62e.png';
+                            }else if (M[1] == 'up$'){
+                                img.src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/thumbs-up-sign_1f44d.png';
+                            }else if (M[1] == 'down$'){
+                                img.src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/thumbs-down-sign_1f44e.png';
+                            }else if (M[1] == 'cry$') {
+                                img.src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/crying-face_1f622.png';
+                            }else if (M[1] == 'angro$') {
+                                img.src = 'https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/angry-face_1f620.png';
+                            }
+
+                            console.log("MESSAGE_ID" + " " + message_id);
+
+                            var react_window = document.getElementById(message_id + "-reactwindow");
+
+                            if (react_window != undefined){
+                                var react_counter = document.getElementById(message_id + '-' + M[1].split(0, -1) + '-counter');
+
+
+                                if (react_counter == undefined){
+                                    document.getElementById(message_id + '-reactwindow').appendChild(img);
+
+                                    react_counter = document.createElement("SPAN");
+                                    react_counter.style['color'] = 'black';
+                                    react_counter.innerHTML = 1;
+                                    react_counter.id = message_id + '-' + M[1].split(0, -1) + '-counter';
+                                    react_counter.style['font-size'] = '11px';
+                                    react_counter.style['font-weight'] = '700';
+                                    react_counter.style['margin-left'] = '4px';
+
+                                    document.getElementById(message_id + '-reactwindow').appendChild(react_counter);
+
+                                }else{
+                                    react_counter.innerHTML = parseInt(react_counter.innerHTML) + 1;
+                                }
+                            }
+
+                            var react_modal = document.getElementById(message_id + '-modal');
+                            if (react_modal == undefined) {
+                                react_modal = document.createElement("DIV");
+
+                                react_modal.style['width'] = '300px';
+
+                                react_modal.classList.add("modal");
+                                react_modal.style['color'] = 'black';
+                                react_modal.id = message_id + '-modal';
+
+                                var react_modal_sad = document.createElement("DIV");
+                                react_modal_sad.innerHTML = '<img src = "https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/smiling-face-with-open-mouth-and-tightly-closed-eyes_1f606.png" style = "width:30px; height:30px">';
+
+                                react_modal_sad.id = message_id + 'modal-sad';
+                                react_modal_sad.style['margin-top'] = '20px';
+                                react_modal_sad.style['display'] = 'none';
+
+                                var react_modal_angro = document.createElement("DIV");
+
+                                react_modal_angro.innerHTML = '<img src = "https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/angry-face_1f620.png" style = "width:30px; height:30px">';
+
+                                react_modal_angro.id = message_id + 'modal-angro';
+                                react_modal_angro.style['margin-top'] = '20px';
+                                react_modal_angro.style['display'] = 'none';
+
+                                var react_modal_mad = document.createElement("DIV");
+
+                                react_modal_mad.innerHTML = '<img src = "https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/face-with-open-mouth_1f62e.png" style = "width:30px; height:30px">';
+
+                                react_modal_mad.id = message_id + 'modal-mad';
+                                react_modal_mad.style['margin-top'] = '20px';
+                                react_modal_mad.style['display'] = 'none';
+
+                                var react_modal_cry = document.createElement("DIV");
+
+                                react_modal_cry.innerHTML = '<img src = "https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/crying-face_1f622.png" style = "width:30px; height:30px">';
+
+                                react_modal_cry.id = message_id + 'modal-cry';
+                                react_modal_cry.style['margin-top'] = '20px';
+                                react_modal_cry.style['display'] = 'none';
+
+                                var react_modal_smile = document.createElement("DIV");
+
+                                react_modal_smile.innerHTML = '<img src = "https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/smiling-face-with-heart-shaped-eyes_1f60d.png" style = "width:30px; height:30px">';
+
+                                react_modal_smile.id = message_id + 'modal-smile';
+                                react_modal_smile.style['margin-top'] = '20px';
+                                react_modal_smile.style['display'] = 'none';
+
+                                var react_modal_up = document.createElement("DIV");
+
+                                react_modal_up.innerHTML = '<img src = "https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/thumbs-up-sign_1f44d.png" style = "width:30px; height:30px">';
+
+                                react_modal_up.id = message_id + 'modal-up';
+                                react_modal_up.style['margin-top'] = '20px';
+                                react_modal_up.style['display'] = 'none';
+
+                                var react_modal_down = document.createElement("DIV");
+
+                                react_modal_down.innerHTML = '<img src = "https://emojipedia-us.s3.amazonaws.com/thumbs/240/facebook/65/thumbs-down-sign_1f44e.png" style = "width:30px; height:30px">';
+
+                                react_modal_down.id = message_id + 'modal-down';
+                                react_modal_down.style['margin-top'] = '20px';
+                                react_modal_down.style['display'] = 'none';
+
+                                react_modal.style['padding-left'] = '50px';
+                                react_modal.style['padding-top'] = '30px';
+                                react_modal.style['padding-bottom'] = '50px';
+
+                                var react_modal_user = document.createElement("DIV");
+                                react_modal_user.style['color'] = 'black';
+
+                                react_modal_user.id = message_id + '-' + M[0] + '-' + M[1].slice(0, -1) + 'modal';
+                                react_modal_user.innerHTML = "<b style = 'font-weight:500'>" + M[0] + '</b> - 1';
+
+                                document.body.appendChild(react_modal);
+
+                                react_modal.appendChild(react_modal_sad);
+                                react_modal.appendChild(react_modal_angro);
+                                react_modal.appendChild(react_modal_mad);
+                                react_modal.appendChild(react_modal_cry);
+                                react_modal.appendChild(react_modal_smile);
+                                react_modal.appendChild(react_modal_up);
+                                react_modal.appendChild(react_modal_down);
+
+                                document.getElementById(message_id + 'modal-' + M[1].slice(0, -1)).style['display'] = 'block';
+
+                                document.getElementById(message_id + 'modal-' + M[1].slice(0, -1)).appendChild(react_modal_user);
+
+                                $('#' + message_id + '-modal').modal();
+                                $('#' + message_id + "-reactwindow").click(function (){
+                                    console.log("CLICKED");
+                                    $('#' + message_id + '-modal').modal('open');
+                                });
+
+                            }else{
+                                var react_modal_user = document.getElementById(message_id + '-' + M[0] + '-' + M[0].slice(0, -1) + 'modal');
+                                if (react_modal_user == undefined) {
+                                    var react_modal_user = document.createElement("DIV");
+                                    react_modal_user.style['color'] = 'black';
+                                    react_modal_user.id = message_id + '-' + M[0] + '-' + M[1].slice(0, -1) + 'modal';
+                                    react_modal_user.innerHTML = "<b style = 'font-weight:500'>" + M[0] + '</b> - 1';
+
+                                    document.getElementById(message_id + 'modal-' + M[1].slice(0, -1)).style['display'] = 'block';
+                                    document.getElementById(message_id + 'modal-' + M[1].slice(0, -1)).appendChild(react_modal_user);
+                                }else{
+                                    var react_modal_user_html = react_modal_user.innerHTML;
+                                    var num = react_modal_user_html.split(" - ").slice(-1);
+
+                                    document.getElementById(message_id + 'modal-' + M[1].slice(0, -1)).style['display'] = 'block';
+
+                                    react_modal_user.innerHTML = react_modal_user_html.split(' - ')[0] + ' - ' + (parseInt(num) + 1);
+                                }
+                            }
+                            continue;
+                        }
+
+                        if (M[1].slice(0, -1) != ''){
+
+                            missed_messages ++;
+                            document.title = '(' + missed_messages + ') Google';
+
+                            var wrapper = document.createElement("DIV");
+                            wrapper.style['width'] = '100%';
+
+                            if (M[0] != handle){
+                                wrapper.style['text-align'] = 'right';
+
+                                if (special_byte == '^' || prev_message == undefined || special_byte == ')'){
+                                    message_name.style['margin-right']= '52px';
+                                    wrapper.appendChild(message_name);
+
+                                    document.getElementById("seen-indicator").innerHTML = '';
+
+                                    if (special_byte == ')'){
+                                        new_message.style['padding'] = 0;
+                                    }
+
+                                    playDing();
+
+                                }else if (special_byte == '*' || special_byte == '('){
+                                    prev_profile.style['display'] = 'none';
+                                    prev_message.style['margin-right'] = '40px';
+
+                                    prev_message.style['border-bottom-right-radius'] = '4px';
+                                    new_message.style['border-top-right-radius'] = '4px';
+
+                                    document.getElementById("seen-indicator").innerHTML = '';
+
+                                    playDing();
+
+                                    if (special_byte == '('){
+                                        new_message.style['padding'] = 0;
+                                    }
+
+                                }else if (special_byte == '%'){
+                                    new_message.innerHTML = "";
+
+                                    console.log("INTEL INSIDE");
+
+                                    console.log(document.getElementById("seen-indicator").innerHTML);
+
+                                    if (document.getElementById("seen-indicator").innerHTML === ""){
+                                        document.getElementById("seen-indicator").innerHTML += '<img style = "margin-top:10px; margin-left: 5px; width:15px; height:15px; border-radius: 50%;" src = "https://s3.amazonaws.com/knightchat-storage/' + M[0] + '-profile.jpg">';
+                                    }else{
+
+        console.log(document.getElementById("seen-indicator").innerHTML + ' ' + document.getElementById("seen-indicator").innerHTML.indexOf(M[0]));
+                                        if (document.getElementById("seen-indicator").innerHTML.indexOf(M[0]) < 0){
+                                            document.getElementById("seen-indicator").innerHTML += '<img style = "margin-top:10px; margin-left: 5px; width:15px; height:15px; border-radius: 50%;" src = "https://s3.amazonaws.com/knightchat-storage/' + M[0] + '-profile.jpg">';
+                                        }
+                                    }
+
+                                    missed_messages --;
+                                }
+
+                                if (special_byte != '%'){
+                                    prev_profile = profile;
+
+                                    wrapper.appendChild(new_message);
+                                    wrapper.appendChild(profile);
+
+                                    prev_message = new_message;
+                                    new_message.style['background-color'] = color;
+                                    new_message.style['margin-bottom'] = '2px';
+
+                                    var reacts_window = document.createElement("DIV");
+                                    reacts_window.style['color'] = 'black';
+
+                                    reacts_window.id = new_message.id + '-reactwindow';
+                                    reacts_window.style['border-radius'] = '20px';
+                                    reacts_window.style['background-color'] = 'white';
+
+                                    reacts_window.style['margin-top'] = '-7px';
+                                    reacts_window.style['z-index'] = '10';
+                                    reacts_window.style['margin-bottom'] = '7px';
+                                    reacts_window.style['margin-right'] = '40px';
+                                    reacts_window.style['width'] = '-webkit-fit-content';
+                                    reacts_window.style['width'] = '-moz-fit-content';
+                                    reacts_window.style['padding'] = '0 5 0 0';
+
+                                    reacts_window.style['display'] = 'inline-block';
+                                    reacts_window.style['position'] = 'relative';
+                                    wrapper.appendChild(document.createElement("BR"));
+                                    wrapper.appendChild(reacts_window);
+
+                                    document.getElementById('message-display').insertBefore(wrapper, document.getElementById("seen-indicator"));
+
+                                    $('#' + new_message.id).click(function(){
+                                        console.log("clicked");
+                                        var pos = $(this).position();
+
+                                        console.log(pos.left + ' ' + pos.top);
+
+                                        react_message_id = this.id + 'r';
+
+                                        $('#reacts').css('left', $('#reacts').parent().width() - 320);
+                                        $('#reacts').css('top', pos.top - 35 + $('#message-display').scrollTop());
+                                        $('#reacts').css('display', 'inline');
+                                        $('#reacts').css('z-index', '100');
+
+                                    });
+                                }
+
+                            }else{
+                                if (special_byte == '^' || prev_message == undefined|| special_byte == ')'){
+                                    document.getElementById("message-display").insertBefore(message_name, document.getElementById("seen-indicator"));
+
+                                    document.getElementById("seen-indicator").innerHTML = '';
+
+                                    if (special_byte == ')'){
+                                        new_message.style['padding'] = 0;
+                                    }
+
+                                }else if (special_byte == '*' || special_byte == '('){
+                                    prev_profile.style['display'] = 'none';
+                                    prev_message.style['margin-left'] = '50px';
+
+                                    prev_message.style['border-bottom-left-radius'] = '4px';
+                                    new_message.style['border-top-left-radius'] = '4px';
+
+                                    document.getElementById("seen-indicator").innerHTML = '';
+
+                                    if (special_byte == '('){
+                                        new_message.style['padding'] = 0;
+                                    }
+
+                                }else if (special_byte == '%'){
+                                    new_message.innerHTML = "";
+
+                                    console.log("INTEL INSIDE");
+
+                                    console.log(document.getElementById("seen-indicator").innerHTML);
+                                    if (document.getElementById("seen-indicator").innerHTML === ""){
+    document.getElementById("seen-indicator").innerHTML += '<img style = "margin-top:10px; margin-left: 5px;width:15px; height:15px; border-radius: 50%;" src = "https://s3.amazonaws.com/knightchat-storage/' + M[0] + '-profile.jpg">';                                }else{
+
+        console.log(document.getElementById("seen-indicator").innerHTML + ' ' + document.getElementById("seen-indicator").innerHTML.indexOf(M[0]));
+
+        if (document.getElementById("seen-indicator").innerHTML.indexOf(M[0]) < 0){
+
+                                            document.getElementById("seen-indicator").innerHTML += '<img style = "margin-top:10px; margin-left: 5px; width:15px; height:15px; border-radius: 50%;" src = "https://s3.amazonaws.com/knightchat-storage/' + M[0] + '-profile.jpg">';
+                                        }                             }
+
+                                    missed_messages --;
+
+                                }
+
+
+
+                                if (special_byte != '%'){
+                                    prev_message = new_message;
+                                    new_message.style['background-color'] = color;
+                                    new_message.style['position'] = 'relative';
+
+                                    wrapper.appendChild(profile);
+                                    wrapper.appendChild(new_message);
+
+                                    prev_profile = profile;
+
+                                    var reacts_window = document.createElement("DIV");
+                                    reacts_window.id = new_message.id + '-reactwindow';
+                                    reacts_window.style['border-radius'] = '20px';
+                                    reacts_window.style['background-color'] = 'white';
+                                    reacts_window.style['height'] = '-webkit-fit-content';
+                                    reacts_window.style['height'] = '-moz-fit-content';
+                                    reacts_window.style['margin-top'] = '-10px';
+                                    reacts_window.style['z-index'] = '10';
+                                    reacts_window.style['margin-bottom'] = '7px';
+                                    reacts_window.style['margin-left'] = '50px';
+                                    reacts_window.style['position'] = 'relative';
+                                    reacts_window.style['padding'] = '0 5 0 0';
+
+                                    reacts_window.style['width'] = '-webkit-fit-content';
+                                    reacts_window.style['width'] = '-moz-fit-content';
+                                    wrapper.appendChild(reacts_window);
+
+                                    document.getElementById('message-display').insertBefore(wrapper, document.getElementById("seen-indicator"));
+
+                                    //document.getElementById('message-display').insertBefore(document.createElement("BR"), document.getElementById("seen-indicator"));
+
+                                    $('#' + new_message.id).click(function(){
+                                        console.log("cliked");
+                                        var pos = $(this).position();
+
+                                        console.log(pos.left + ' ' + pos.top);
+
+                                        react_message_id = this.id + 'r';
+
+                                        $('#reacts').css('left', pos.left + 12);
+                                        $('#reacts').css('top', pos.top - 35 + $('#message-display').scrollTop());
+                                        $('#reacts').css('display', 'inline');
+                                        $('#reacts').css('z-index', '100');
+
+                                    });
+                                }
+                            }
+
+                            document.getElementById("message-display").scrollTop = document.getElementById("message-display").scrollHeight;
+                        }
+                    }
+
+
+                    // start a new request
+                   // message_request.open("POST", "http://knightchat.newportrocketry.com/", true);
+                    //message_request.send("WHAT_HAVE_I_MISSED" + delimiter + handle + delimiter + server);
+
+                } else {
+                    document.body.className = 'error';
+                }
+            }
+        };
+
+                request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+       request.send({"test" : "yes", "dankmemes" : 1000, "id" : 10});
+        console.log("SENT MESSAGE");
+
+        $('#toggle-ding').click(function () {
+            var messages = document.getElementsByClassName("message");
+            var min_id = 100000000000000000000000;
+            for (m = 0; m < messages.length; m ++){
+                var m_id = parseInt(messages[m].id.split('-')[0]);
+                min_id = Math.min(min_id, m_id);
+            };
+
+            earliest_message = min_id;
+            message_addition_request.open("POST", "http://knightchat.newportrocketry.com/", true);
+
+            message_addition_request.send("REQUEST_LAST_10" + delimiter + handle + delimiter + server + delimiter + earliest_message);
+        });
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    }   ;
+
+
+
+        function sendHandle() {
+
+
+            request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+            request.send("USER_HANDLE" + delimiter + handle);
+
+            console.log("post");
+        }
+
+        handle = getUrlParameter('handle');
+        sendHandle();
+
+        server = 'newport';
+        $('#server-name').html(server);
+
+        message_request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+        message_request.send("USER_JOIN_SERVER" + delimiter + handle + delimiter + server);
+
+        server_info_request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+        server_info_request.send("SERVER_ALL" + delimiter + handle);
+        var first = true;
+
+        function joinServer(s) {
+            var messages = document.getElementsByClassName("message");
+            var length = messages.length;
+
+            while (length != 0){
+                for (i = 0; i < messages.length; i++) {
+                    console.log("removing element" + i);
+                    document.getElementById("message-display").removeChild(messages[i].parentNode);
+                }
+
+                messages = document.getElementsByClassName("message");
+                length = messages.length;
+            }
+
+            messages = document.getElementsByClassName("message-name");
+            length = messages.length;
+
+            while (length != 0){
+                for (i = 0; i < messages.length; i++) {
+                    console.log("removing element" + i);
+                    document.getElementById("message-display").removeChild(messages[i]);
+                }
+
+                messages = document.getElementsByClassName("message-name");
+                length = messages.length;
+            }
+
+            server = s;
+            $('#server-name').html(s);
+
+            message_request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+
+           message_request.send("USER_JOIN_SERVER" + delimiter + handle + delimiter + server);
+
+        }
+
+        joinServer('newport');
+
+        function sendPass() {
+            console.log("SENDING");
+            pass_request.open("POST", "http://knightchat.newportrocketry.com/", true);
+            pass_request.send("PASSWORD" + delimiter + handle + delimiter + $('#password').val());
+        }
+
+        function sendServer() {
+            if ($('#server').val().length > 25) {
+                $('#server-error').html("Server name must be less than or equal to 25 characters long");
+                return;
+            }
+
+
+
+            console.log("submitting servername");
+
+            message_request.abort();
+
+            message_request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+            message_request.send("USER_JOIN_SERVER" + delimiter + handle + delimiter + $('#server').val());
+
+            $('message-display').html('');
+
+            server = $('#server').val();
+            console.log(server);
+            $('#server-name').html(server);
+
+        }
+
+        $("#handle").on('keyup', function (e) {
+            console.log(e.keyCode);
+            if (e.keyCode == 13) {
+                sendHandle();
+            }
+        });
+
+        $('#handle').on('keydown', function (e) {
+            if (e.keyCode == 9){
+                e.preventDefault();
+            }
+        });
+
+        $("#server").on('keyup', function (e) {
+            if (e.keyCode == 13) {
+                sendServer();
+            }else if (e.keyCode == 9){
+                e.preventDefault();
+            }
+        });
+
+        $('#server').on('keydown', function (e) {
+            if (e.keyCode == 9){
+                e.preventDefault();
+            }
+        });
+
+        $("#password").on('keyup', function (e) {
+            if (e.keyCode == 13) {
+                sendPass();
+            }else if (e.keyCode == 9){
+                e.preventDefault();
+            }
+        });
+
+        $('#password').on('keydown', function (e) {
+            if (e.keyCode == 9){
+                e.preventDefault();
+            }
+        });
+
+        $('#submit-handle').click(sendHandle);
+
+        $('#submit-server').click(sendServer);
+
+        $('#submit-update').click(function() {
+            request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+            request.send("USER_MESSAGE" + delimiter + handle + delimiter + server + delimiter + $('#message').val());
+
+            $('#message').val('');
+
+        });
+
+        $('#submit-password').click(sendPass);
+
+        var ascii = /^[ -~]+$/;
+
+
+        function send(e, textarea){
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if (code == 13){
+                e.preventDefault();
+
+                if (ascii.test($('#message').html())){
+                    request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+                    console.log("USER_MESSAGE" + delimiter + handle + delimiter + server + delimiter + $('#message').html());
+                    request.send("USER_MESSAGE" + delimiter + handle + delimiter + server + delimiter + $('#message').html());
+                }
+
+                $('#message').text('');
+                document.getElementById("message").innerHTML = "";
+            }
+        }
+
+        Visibility.every(1000, function () {
+            if (missed_messages != 0){
+                missed_messages = 0;        // reset
+
+
+                request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+                request.send("USER_MESSAGE_SEEN" + delimiter + handle + delimiter + server);
+            }
+        });
+
+
+    </script>
+</html>
