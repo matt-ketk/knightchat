@@ -1,0 +1,376 @@
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+
+<link rel="stylesheet"
+href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/visibility.js/1.2.4/visibility.min.js"></script>
+
+<script src="https://s3.amazonaws.com/knightchat-storage/md5.js"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+<style>
+    body {
+        font-family: 'Segoe UI';
+        font-size: 16px; 
+
+        font-weight:300;
+    }
+
+    .h1 {
+        font-size: 80px; 
+    }
+
+    .h2 {
+        font-size:40px;
+    }
+
+    .h3 {
+        font-size:20px;
+    }
+
+    .fixed {
+        position:fixed;
+    }
+
+    .message {
+        line-height: 20px;
+        text-align: left;
+
+        font-size:14px;
+
+        word-wrap: break-word;
+
+        max-width: 500px;
+
+        display:inline-block;
+
+        margin-bottom: 5px;
+        margin-left: 10px;
+
+        background: #44BEC7; /*0084FF*/
+        border:0;
+        border-radius:20px;
+
+        font-weight:400;
+        color: white;
+
+        padding:6px 12px 6px 12px;
+    }
+
+    .message-name {
+        font-size:11px;
+        margin-left: 22px;
+
+        color:gray;
+    }
+
+     ::-webkit-scrollbar
+{
+  width: 12px;  /* for vertical scrollbars */
+  height: 12px; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track
+{
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb
+{
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.page {
+    -webkit-transition: all 1s ease;
+    -moz-transitition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+        
+    background-color:skyblue;
+
+}
+
+a:link {
+        color: white;
+    }
+
+    a:hover{
+        color:white;
+    }
+
+    a:visited {
+        color:white;
+    }
+</style>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <meta name="google-site-verification" content="gGhQ7WfMBzR7vcveQLa0TU0hI5O75E7XEUE59Hf1CWQ" />
+
+  <title>Google</title>
+</head>
+
+<html>
+    <body style = 'width:100%; height:100%; background-color:#a5d6a7; overflow-x:hidden'>
+        <form action="http://knightchat.newportrocketry.com/create-account" enctype="multipart/form-data" method="post">
+            <div style = 'width:100%; height:100%;position:absolute; top:0; left:00%; background-color: #81c784' class = 'valign-wrapper page'>
+                    <div style = 'margin-left:50px;' class = ''>
+                            <div class = 'h1' style = ''>Access code</div>
+
+                            <input id = 'access' name = 'access' type = 'text' spellcheck="false" placeholder= 'enter an access code' style = 'width:80%; height:150px; font-size:80; border-style:none'><i id = 'submit-access' class = 'medium material-icons'>arrow_forward</i>
+                            <div id = 'access-error' class = 'h3' style = 'width:80%; color: #c62828'></div>
+
+                            <div class = 'h3' style = 'width:80%'>Enter your access code. If you don't have one, contact us at <a href = 'mailto:newportknightchat@gmail.com'>newportknightchat@gmail.com</a> to recieve one.</div>
+                    </div>
+                </div>
+
+                <div style = 'width:100%; height:100%;position:absolute; top:0; left:100%; background-color: white' class = 'valign-wrapper page'>
+                    <div style = 'margin-left:50px;' class = ''>
+                            <div class = 'h1' style = ''>Username</div>
+
+                            <input id = 'handle' name = 'username' type = 'text' spellcheck="false" placeholder= 'register a username' style = 'width:80%; height:150px; font-size:80; border-style:none'><i id = 'submit-handle' class = 'medium material-icons'>arrow_forward</i>
+                            <div id = 'error' class = 'h3' style = 'width:80%; color: #c62828'></div>
+
+                            <div class = 'h3' style = 'width:80%'>Enter a unique username. You won't be able to change it once you've registered!</div>
+                    </div>
+                </div>
+
+                <div style = 'width:100%; height:100%;position:absolute; top:0; left:200%; background-color:#a1887f' class = 'valign-wrapper page'>
+                    <div style = 'margin-left:50px;' class = ''>
+                            <div class = 'h1' style = ''>Password</div>
+
+                            <input id = 'password' name = 'password' type = 'password' spellcheck="false" placeholder= 'password' style = 'width:80%; height:150px; font-size:80; border-style:none'><i id = 'submit-password' class = 'medium material-icons'>arrow_forward</i>
+                            <div id = 'password-error' class = 'h3' style = 'width:80%; color: #c62828'></div>
+
+                            <div class = 'h3' style = 'width:80%'>Enter a password.</div>
+                    </div>
+                </div>
+
+                <div style = 'width:100%; height:100%;position:absolute; top:0; left:300%; background-color:#adadad' class = 'valign-wrapper page'>
+                    <div style = 'margin-left:50px;' class = ''>
+                            <div class = 'h1' style = ''>Password</div>
+
+                            <input id = 'confirm-password' type = 'password' spellcheck="false" placeholder= 'confirm password' style = 'width:80%; height:150px; font-size:80; border-style:none'><i id = 'submit-confirm-password' class = 'medium material-icons'>arrow_forward</i>
+                            <div id = 'confirm-password-error' class = 'h3' style = 'width:80%; color: #c62828'></div>
+
+                            <div class = 'h3' style = 'width:80%'>Confirm your password.</div>
+                    </div>
+                </div>
+
+                <div style = 'width:100%; height:100%;position:absolute; top:0; left:400%; background-color:#ff8a65' class = 'valign-wrapper page'>
+                    <div style = 'margin-left:50px;' class = ''>
+                            <div class = 'h1' style = ''>Profile</div>
+
+                            <div class="file-field input-field valign-wrapper">
+                                    <div class="btn" style = 'border-radius:30px; -webkit-box-shadow:0; box-shadow:0; width:0; height:0; margin-left:-70px;'>
+                                        
+                                        <input type="file" name="newfile" size="80" class = 'valign-wrapper' style = 'font-size:80px'>
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path valign-wrapper" placeholder = 'profile photo' type="text" size = '80' style = 'width:80%; font-size:80px; height:150px;'>
+                                    </div>
+                            </div>
+                            
+                            <div id = 'confirm-password-error' class = 'h3' style = 'width:80%; color: #c62828'></div>
+
+                            <div class = 'h3' style = 'width:80%'>Add a profile photo.</div>
+                    </div>
+
+                    <input type = 'submit' id = 'submit-user' style = 'position:absolute; top:50%; right:40px; background-color:rgba(0, 0, 0, 0); border:0; font-size:60px' class = 'medium material-icons' value = 'arrow_forward'>
+                </div>
+
+                <div style = 'width:100%; height:100%;position:absolute; top:0; left:500%; background-color:#b39ddb' class = 'valign-wrapper page'>
+                    <div style = 'margin-left:50px;' class = ''>
+                            <span class = 'h1' style = ''>You're all set!</span>
+                            <div class = 'h3' style = 'width:80%'>Add a profile photo.</div>
+
+                            <i id = '' class = 'medium material-icons' style = 'margin-left:50px'><a href = 'http://knightchat.newportrocketry.com/'>arrow_forward</a></i>
+                            
+                    </div>
+                </div>
+            </form>
+    </body>
+</html>
+
+<script>
+
+    var delimiter = String.fromCharCode(0);
+
+    var access;
+
+    var page = 0;
+    function shift_forward(){
+        page ++;
+        var c = document.getElementsByClassName("page");
+
+        for (i = 0; i < c.length; i++){
+            c[i].style['left'] = -100 * page + i * 100 + '%';
+        }
+    }
+
+    function shift_backward() {
+        page --;
+        if (page < 0){
+            page = 0;
+        }
+
+        var c = document.getElementsByClassName("page");
+
+        for (i = 0; i < c.length; i++){
+            c[i].style['left'] = -100 * page + i * 100 + '%';
+        }
+
+    }
+
+
+    var handle_request = new XMLHttpRequest();
+    handle_request.onreadystatechange = function() {
+        if (handle_request.readyState === 4) {
+            if (handle_request.status === 200) {
+                var message = handle_request.responseText;
+                
+
+                if (message == 'OK'){
+                    shift_forward();
+                    setTimeout(function(){$('#password').focus();}, 1000);
+
+                }else{
+                    $('#error').html(message);
+                }
+            }
+        }
+    }
+
+    var submit_user = new XMLHttpRequest();
+    submit_user.onreadystatechange = function() {
+        if (submit_user.readyState === 4){
+            if (submit_user.status === 200){
+                var message = submit_user.responseText;
+                console.log(message);
+                if (message == "OK"){
+                    shift_forward();
+                }
+            }
+        }
+    }
+
+    var submit_access_code = new XMLHttpRequest();
+    submit_access_code.onreadystatechange = function() {
+        if (submit_access_code.readyState === 4){
+            if (submit_access_code.status === 200){
+                var message = submit_access_code.responseText;
+                console.log(message);
+                if (message == "OK"){
+                    shift_forward();
+                }else{
+                    $('#access-error').html(message);
+                }
+            }
+        }
+    }
+
+    $('#submit-password').click(function(){
+        shift_forward();
+        setTimeout(function(){$('#confirm-password').focus();}, 1000);
+
+    });
+
+    function sendPassword(){
+        if ($('#confirm-password').val() != $('#password').val()){
+            $('#password-error').html("Passwords do not match");
+            shift_backward();
+        }else{
+            shift_forward();
+        }
+    }
+    
+
+    $('#submit-confirm-password').click(sendPassword);
+
+    function sendHandle(){
+        if ($('#handle').val().length > 25) {
+            $('#error').html("Handle must be less than or equal to 25 characters long");
+        }else{
+
+            handle_request.open("POST", "http://knightchat.newportrocketry.com/register", true);
+            handle_request.send('USER_HANDLE' + delimiter + $('#handle').val());
+        }
+    }
+
+    function sendAccess(){
+        submit_access_code.open("POST", "http://knightchat.newportrocketry.com/register", true);
+        submit_access_code.send("USER_ACCESS" + delimiter + $('#access').val());
+    }
+
+    $('#submit-handle').click(sendHandle);
+    $('#submit-user').click(shift_forward);
+
+    $("#access").on('keyup', function (e) {
+        console.log(e.keyCode);
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            sendAccess();
+        }
+     });
+
+     $('#submit-access').click(sendAccess);
+
+    $('#access').on('keydown', function (e) {
+        if (e.keyCode == 9|| e.keyCode == 13){
+            e.preventDefault();
+        }
+    });
+
+     $("#handle").on('keyup', function (e) {
+        console.log(e.keyCode);
+        if (e.keyCode == 13) {
+                        e.preventDefault();
+
+            sendHandle();
+        }
+     });
+
+    $('#handle').on('keydown', function (e) {
+        if (e.keyCode == 9|| e.keyCode == 13){
+            e.preventDefault();
+        }
+    });
+
+    $("#password").on('keyup', function (e) {
+        console.log(e.keyCode);
+        if (e.keyCode == 13) {
+                        e.preventDefault();
+
+            shift_forward();
+            setTimeout(function(){$('#confirm-password').focus();}, 1000);
+
+        }
+     });
+
+     $('#password').on('keydown', function (e) {
+        if (e.keyCode == 9 || e.keyCode == 13){
+            e.preventDefault();
+        }
+    });
+
+     $("#confirm-password").on('keyup', function (e) {
+        console.log(e.keyCode);
+        if (e.keyCode == 13) {
+                        e.preventDefault();
+
+            sendPassword();
+        }
+     });
+
+     $('#confirm-password').on('keydown', function (e) {
+        if (e.keyCode == 9 || e.keyCode ==13){
+            e.preventDefault();
+        }
+    });
+
+</script>

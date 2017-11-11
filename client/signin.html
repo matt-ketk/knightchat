@@ -1,0 +1,247 @@
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+
+<link rel="stylesheet"
+href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/visibility.js/1.2.4/visibility.min.js"></script>
+
+<style>
+    body {
+        font-family: 'Segoe UI';
+        font-size: 16px;
+
+        font-weight:300;
+    }
+
+    .h1 {
+        font-size: 80px;
+    }
+
+    .h2 {
+        font-size:40px;
+    }
+
+    .h3 {
+        font-size:20px;
+    }
+
+    .fixed {
+        position:fixed;
+    }
+
+    a:link {
+        color: white;
+    }
+
+    a:hover{
+        color:white;
+    }
+
+    a:visited {
+        color:white;
+    }
+
+    @-webkit-keyframes autofill {
+    to {
+        color: #666;
+        background: transparent;
+    }
+}
+
+input:-webkit-autofill {
+    -webkit-animation-name: autofill;
+    -webkit-animation-fill-mode: both;
+}
+
+    .message {
+        line-height: 20px;
+        text-align: left;
+
+        font-size:14px;
+
+        word-wrap: break-word;
+
+        max-width: 500px;
+
+        display:inline-block;
+
+        margin-bottom: 5px;
+        margin-left: 10px;
+
+        background: #44BEC7; /*0084FF*/
+        border:0;
+        border-radius:20px;
+
+        font-weight:400;
+        color: white;
+
+        padding:6px 12px 6px 12px;
+    }
+
+    .message-name {
+        font-size:11px;
+        margin-left: 22px;
+
+        color:gray;
+    }
+
+     ::-webkit-scrollbar
+{
+  width: 12px;  /* for vertical scrollbars */
+  height: 12px; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track
+{
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb
+{
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.page {
+    -webkit-transition: all 1s ease;
+    -moz-transitition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+
+    background-color:skyblue;
+
+}
+</style>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <meta name="google-site-verification" content="gGhQ7WfMBzR7vcveQLa0TU0hI5O75E7XEUE59Hf1CWQ" />
+
+  <title>Google</title>
+</head>
+
+<html>
+    <form id = 'signin-form' action="http://knightchat.newportrocketry.com/client" method="post">
+    <body style = 'background-color:#009688; overflow-x:hidden'>
+        <div style = 'width:100%; height:100%;position:absolute; top:0; left:0%; background-color:#e57373' class = 'valign-wrapper page'>
+            <div style = 'margin-left:50px;' class = ''>
+                    <div class = 'h1' style = ''>User</div>
+
+                    <input id = 'handle' type = 'text' name = 'username' spellcheck="false" placeholder= 'type your user name' style = 'width:80%; height:150px; font-size:80; border-style:none'><i id = 'submit-handle' class = 'medium material-icons'>arrow_forward</i>
+                    <div id = 'error' class = 'h3' style = 'width:80%; color: #c62828'></div>
+
+                    <div class = 'h3' style = 'width:80%'>Enter your user name. If you're not registered, visit our <a href = 'http://knightchat.newportrocketry.com/register'>registration page</a>, or contact us at <a href = "mailto:newportknightchat@gmail.com">newportknightchat@gmail.com</a> to make an account.</div>
+            </div>
+        </div>
+
+        <div style = 'width:100%; height:100%;position:absolute; top:0; left:100%; background-color:#009688' class = 'valign-wrapper page'>
+            <div style = 'margin-left:50px;' class = ''>
+                    <div class = 'h1' style = ''></div>
+
+                    <input id = 'password' type = 'password' name = 'password' spellcheck="false" placeholder= 'password' style = 'width:80%; height:150px; font-size:80; border-style:none'><i id = 'submit-password' class = 'medium material-icons'>arrow_forward</i>
+                    <div id = 'password-error' class = 'h3' style = 'width:80%; color: #c62828'></div>
+
+                    <div class = 'h3' style = 'width:80%'>Enter your password.</div>
+            </div>
+        </div>
+    </body>
+    </form>
+
+</html>
+
+<script>
+    var delimiter = String.fromCharCode(0);
+
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+
+    var page = 0;
+    function shift_forward(){
+        page ++;
+        var c = document.getElementsByClassName("page");
+
+        for (i = 0; i < c.length; i++){
+            c[i].style['left'] = -100 * page + i * 100 + '%';
+        }
+    }
+
+    var handle_request = new XMLHttpRequest();
+    handle_request.onreadystatechange = function() {
+        if (handle_request.readyState === 4) {
+            if (handle_request.status === 200) {
+                var json_response = JSON.parse(handle_request.response);
+
+                if (json_response['validity'] == 'OK'){
+                    shift_forward();
+                    setTimeout(function(){$('#password').focus();}, 1000);
+                }else{
+                    $('#error').html(json_response['validity']);
+                }
+
+
+            }
+        }
+    }
+
+    function sendHandle(){
+        if ($('#handle').val().length > 25) {
+            $('#error').html("Handle must be less than or equal to 25 characters long");
+        }else{
+
+            console.log("made post");
+
+            handle_request.open("POST", 'http://knightchat.newportrocketry.com/', true);
+            handle_request.send(JSON.stringify({"sender" : "courier.signin", "type" : "request/user-handle-validity", "content" : $('#handle').val()}));
+        }
+    }
+
+
+    if (getUrlParameter('account') === 'denied') {
+        $('#error').html("Your username or password is incorrect");
+    }
+
+    $("#handle").on('keyup', function (e) {
+            console.log(e.keyCode);
+            if (e.keyCode == 13) {
+
+                sendHandle();
+
+            }
+    });
+
+    $('#handle').on('keydown', function (e) {
+        if (e.keyCode == 9){
+            e.preventDefault();
+        }
+    });
+
+    $("#password").on('keyup', function (e) {
+            console.log(e.keyCode);
+            if (e.keyCode == 13) {
+                document.getElementById("signin-form").action = "http://knightchat.newportrocketry.com/client?handle=" + $('#handle').val();
+                document.getElementById("signin-form").submit();
+            }
+    });
+
+    $('#handle').on('keydown', function (e) {
+        if (e.keyCode == 9){
+            e.preventDefault();
+        }
+    });
+</script>
