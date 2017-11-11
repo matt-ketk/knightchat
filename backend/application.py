@@ -426,6 +426,9 @@ def application(environ, start_response):
 
                         return [return_message]
 
+                    elif (message_type_fine == 'join'):
+                        server_users[message_conversation].append(message_sender)
+
                     elif (message_type_fine == 'user-handle-validity'):
                         if message_content not in users:
                             return_message = json.dumps({
